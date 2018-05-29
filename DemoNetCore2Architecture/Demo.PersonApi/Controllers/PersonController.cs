@@ -31,15 +31,29 @@ namespace Demo.PersonApi.Controllers
         }
 
         // POST api/person
+        // [HttpPost]
+        // public Person Post([FromBody] Person person)
+        // {
+        //     return this.personService.Create(person);
+        // }
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult Post([FromBody] Person person)
         {
+            var result = this.personService.Create(person);
+
+            if(!result.Success) {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
         }
 
         // PUT api/person/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public Person Put(int id, [FromBody]Person person)
         {
+            //return this.personService.Create(person);
+            return null;
         }
 
         // DELETE api/person/5

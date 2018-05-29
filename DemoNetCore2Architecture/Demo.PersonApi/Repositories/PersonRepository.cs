@@ -12,6 +12,15 @@ namespace Demo.PersonApi.Repositories
         {
             this.context = context;
         }
+
+        public Person Create(Person person)
+        {
+            return new Person {
+                PersonId = 1234,
+                Name = "New person"
+            };
+        }
+
         public IEnumerable<Person> GetAll()
         {
             return context.People;
