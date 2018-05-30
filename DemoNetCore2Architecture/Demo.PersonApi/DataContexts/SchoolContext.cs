@@ -15,5 +15,6 @@ namespace Demo.PersonApi.DataContexts
             builder.Entity<Person>().ToTable("Person");
         }
         public DbSet<Person> People { get; set;}
+        public DbSet<Course> Course { get; set;}
     }
 }

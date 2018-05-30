@@ -13,17 +13,24 @@ namespace Demo.PersonApi.Repositories
             this.context = context;
         }
 
-        public Person Create(Person person)
+        public IEnumerable<Person> GetAll()
+        {
+            return context.People;
+        }
+        public Person GetById(int personId)
+        {
+            return context.People.FirstOrDefault(p => p.PersonId == personId);
+        }
+        public Person Add(Person person)
         {
             return new Person {
                 PersonId = 1234,
                 Name = "New person"
             };
         }
-
-        public IEnumerable<Person> GetAll()
+        public void Remove(int personId)
         {
-            return context.People;
+            context.Remove(new Person { PersonId = personId});
         }
     }
 }
