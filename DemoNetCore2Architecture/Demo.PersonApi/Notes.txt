@@ -1,1 +1,94 @@
 https://www.thereformedprogrammer.net/updating-many-to-many-relationships-in-entity-framework-core/
+
+USE [Test]
+GO
+
+/****** Object:  Table [dbo].[Course]    Script Date: 5/30/2018 11:53:20 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[Course](
+	[CourseId] [int] IDENTITY(1,1) NOT NULL,
+	[CourseName] [varchar](100) NULL,
+ CONSTRAINT [PK_Course] PRIMARY KEY CLUSTERED 
+(
+	[CourseId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+
+
+USE [Test]
+GO
+
+/****** Object:  Table [dbo].[Person]    Script Date: 5/30/2018 11:53:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[Person](
+	[PersonId] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](100) NULL,
+ CONSTRAINT [PK_Person] PRIMARY KEY CLUSTERED 
+(
+	[PersonId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+USE [Test]
+GO
+
+/****** Object:  Table [dbo].[PersonCourse]    Script Date: 5/30/2018 11:53:37 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[PersonCourse](
+	[PersonId] [int] NOT NULL,
+	[CourseId] [int] NOT NULL,
+ CONSTRAINT [PK_PersonCourse] PRIMARY KEY CLUSTERED 
+(
+	[PersonId] ASC,
+	[CourseId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+ALTER TABLE [dbo].[PersonCourse]  WITH CHECK ADD  CONSTRAINT [FK_PersonCourse_Course] FOREIGN KEY([CourseId])
+REFERENCES [dbo].[Course] ([CourseId])
+GO
+
+ALTER TABLE [dbo].[PersonCourse] CHECK CONSTRAINT [FK_PersonCourse_Course]
+GO
+
+ALTER TABLE [dbo].[PersonCourse]  WITH CHECK ADD  CONSTRAINT [FK_PersonCourse_Person] FOREIGN KEY([PersonId])
+REFERENCES [dbo].[Person] ([PersonId])
+GO
+
+ALTER TABLE [dbo].[PersonCourse] CHECK CONSTRAINT [FK_PersonCourse_Person]
+GO
+
