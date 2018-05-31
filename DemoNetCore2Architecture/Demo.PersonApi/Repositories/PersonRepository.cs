@@ -23,10 +23,11 @@ namespace Demo.PersonApi.Repositories
         }
         public Person Add(Person person)
         {
-            return new Person {
-                PersonId = 1234,
-                Name = "New person"
-            };
+            context.People.Add(person);
+
+            var id = context.SaveChanges();
+
+            return person;
         }
         public void Remove(int personId)
         {

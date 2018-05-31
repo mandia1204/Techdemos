@@ -13,8 +13,10 @@ namespace Demo.PersonApi.DataContexts
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Person>().ToTable("Person");
+            builder.Entity<Course>().ToTable("Course");
+            builder.Entity<PersonCourse>().HasKey(x => new { x.PersonId, x.CourseId });
         }
         public DbSet<Person> People { get; set;}
-        public DbSet<Course> Course { get; set;}
+        public DbSet<Course> Courses { get; set;}
     }
 }

@@ -20,10 +20,6 @@ namespace Demo.PersonApi.Services
         private List<string> ValidatePerson(Person person) {
             var errors = new List<string>();
 
-            if(person.PersonId == 0) {
-                errors.Add("Person Id required.");
-            }
-
             if(string.IsNullOrWhiteSpace(person.Name)) {
                 errors.Add("Name Id required.");
             }
