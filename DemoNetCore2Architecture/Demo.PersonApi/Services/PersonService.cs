@@ -12,13 +12,12 @@ namespace Demo.PersonApi.Services
             this.personRepository = personRepository;
         }
 
-        // public Person Create(Person person)
-        // {
-        //     return personRepository.Create(person);
-        // }
-
-        private List<string> ValidatePerson(Person person) {
+        private List<string> ValidatePerson(Person person, bool isNew) {
             var errors = new List<string>();
+
+            if(person.PersonId == 0 && !isNew) {
+                 errors.Add("Person Id required.");
+            }
 
             if(string.IsNullOrWhiteSpace(person.Name)) {
                 errors.Add("Name Id required.");
@@ -34,7 +33,7 @@ namespace Demo.PersonApi.Services
         public ApiResponse<Person> Create(Person person)
         {
             var response = new ApiResponse<Person> {
-                Errors = ValidatePerson(person)
+                Errors = ValidatePerson(person, true)
             };
 
             if(!response.Success) {
@@ -48,6 +47,32 @@ namespace Demo.PersonApi.Services
         public IEnumerable<Person> GetAll()
         {
             return personRepository.GetAll();
+        }
+
+        public Person GetById(int personId)
+        {
+            return personRepository.GetById(personId);
+        }
+
+        public ApiResponse<Person> Update(Person person)
+        {
+            var response = new ApiResponse<Person> {
+                Errors = ValidatePerson(person, false)
+            };
+
+            if(!response.Success) {
+                return response;
+            }
+
+            personRepository.Update(person);
+            response.Data = person;
+
+            return response;
+        }
+
+        public ApiResponse<Person> Delete(int personId) { 
+            personRepository.Remove(personId);
+            return new ApiResponse<Person>();
         }
     }
 }

@@ -9,5 +9,6 @@ namespace Demo.PersonApi.Repositories
          Person Add(Person person);
          Person GetById(int personId);
          void Remove(int personId);
+         void Update(Person person);
     }
 }

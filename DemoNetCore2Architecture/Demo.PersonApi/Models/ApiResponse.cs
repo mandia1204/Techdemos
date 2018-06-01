@@ -9,6 +9,11 @@ namespace Demo.PersonApi.Models
             Errors = new List<string>();
         }
         
+        public string Message {
+            get {
+                return this.Errors.Count > 0 ? "An error has ocurred" : "Operation completed successfully";
+            }
+        }
         public bool Success { 
             get 
             {

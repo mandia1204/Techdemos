@@ -25,41 +25,39 @@ namespace Demo.PersonApi.Controllers
 
         // GET api/person/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public Person Get(int id)
         {
-            return "value";
+            return this.personService.GetById(id);
         }
 
         // POST api/person
-        // [HttpPost]
-        // public Person Post([FromBody] Person person)
-        // {
-        //     return this.personService.Create(person);
-        // }
         [HttpPost]
         public IActionResult Post([FromBody] Person person)
         {
-            var result = this.personService.Create(person);
+            return ExecuteAction(person, personService.Create);
+        }
+
+        // PUT api/person/5
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody]Person person)
+        {
+            return ExecuteAction(person, personService.Update);
+        }
+
+        // DELETE api/person/5
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            return ExecuteAction(id, personService.Delete);
+        }
+        private IActionResult ExecuteAction<T>(T param, Func<T, ApiResponse<Person>> function) {
+            var result = function(param);
 
             if(!result.Success) {
                 return BadRequest(result);
             }
 
             return Ok(result);
-        }
-
-        // PUT api/person/5
-        [HttpPut("{id}")]
-        public Person Put(int id, [FromBody]Person person)
-        {
-            //return this.personService.Create(person);
-            return null;
-        }
-
-        // DELETE api/person/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }

@@ -14,9 +14,11 @@ namespace Demo.PersonApi.DataContexts
         {
             builder.Entity<Person>().ToTable("Person");
             builder.Entity<Course>().ToTable("Course");
+            builder.Entity<PersonCourse>().ToTable("PersonCourse");
             builder.Entity<PersonCourse>().HasKey(x => new { x.PersonId, x.CourseId });
         }
         public DbSet<Person> People { get; set;}
         public DbSet<Course> Courses { get; set;}
+        public DbSet<PersonCourse> PersonCourses { get; set;}
     }
 }
