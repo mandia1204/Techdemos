@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Demo.PersonApi.Models;
 using Demo.PersonApi.Repositories;
+using Demo.PersonApi.Repositories.Interfaces;
 
 namespace Demo.PersonApi.Services
 {

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Demo.PersonApi.Models;
 using Demo.PersonApi.Repositories;
+using Demo.PersonApi.Repositories.Interfaces;
 
 namespace Demo.PersonApi.Services
 {

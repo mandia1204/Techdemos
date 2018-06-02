@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Demo.PersonApi.DataContexts;
 using Demo.PersonApi.Models;
+using Demo.PersonApi.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Demo.PersonApi.Repositories

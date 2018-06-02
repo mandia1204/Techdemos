@@ -1,6 +1,6 @@
 using Demo.PersonApi.Models;
 
-namespace Demo.PersonApi.Repositories
+namespace Demo.PersonApi.Repositories.Interfaces
 {
     public interface IPersonRepositoryGeneric : IGenericRepository<Person>
     {

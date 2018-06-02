@@ -8,11 +8,10 @@ namespace Demo.PersonApi.Models
             Courses = new List<PersonCourse>();
         }
         
-        public int PersonId { get; set;}
-        public string Name { get; set;}
+        public int PersonId { get; set; }
+        public string Name { get; set; }
         public List<PersonCourse> Courses { get; set; }
         public List<Review> Reviews { get; set; }
-
         public int Id => PersonId;
     }
 }
