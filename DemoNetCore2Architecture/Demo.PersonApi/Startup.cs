@@ -14,6 +14,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
+using Demo.PersonApi.Models;
 
 namespace Demo.PersonApi
 {
@@ -43,6 +44,8 @@ namespace Demo.PersonApi
         private void Bootstrapper(IServiceCollection services){
             services.AddTransient<IPersonService,PersonService>();
             services.AddTransient<IPersonRepository,PersonRepository>();
+            //services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddTransient<IPersonRepositoryGeneric,PersonRepositoryGeneric>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

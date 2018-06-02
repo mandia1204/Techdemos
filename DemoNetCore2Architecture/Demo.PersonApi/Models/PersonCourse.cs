@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Demo.PersonApi.Models
 {
-    public class PersonCourse
+    public class PersonCourse: IRowState
     {
         public int PersonId { get; set;}
         public int CourseId { get; set; }
