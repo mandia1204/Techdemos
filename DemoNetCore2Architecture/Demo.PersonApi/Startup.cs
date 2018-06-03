@@ -44,9 +44,12 @@ namespace Demo.PersonApi
 
         private void Bootstrapper(IServiceCollection services){
             services.AddTransient<IPersonService,PersonServiceUoW>();
+            services.AddTransient<IPersonServiceAsync,PersonServiceAsync>();
             services.AddScoped<IPersonRepository,PersonRepositoryUoW>();
             services.AddScoped<ISchoolUnitOfWork,SchoolUnitOfWork>();
             services.AddScoped<ICourseRepository,CourseRepository>();
+            services.AddScoped<IPersonRepositoryAsync,PersonRepositoryAsync>();
+            
             
             //services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IPersonRepositoryGeneric,PersonRepositoryGeneric>();
