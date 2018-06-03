@@ -47,13 +47,14 @@ namespace Demo.PersonApi.Repositories
             FilterByRowState<TCol>(propertySelector(obj), RowState.Deleted).ForEach(c => context.Set<TCol>().Remove(c));
         }
 
-        public void Update(Person person) {
+        public Person Update(Person person) {
 
             HandleListUpdates<Person, PersonCourse>(person, p=> p.Courses);
             HandleListUpdates<Person, Review>(person, p=> p.Reviews);
 
             context.Update(person);
             context.SaveChanges();
+            return person;
         }
 
         public void Remove(int personId)

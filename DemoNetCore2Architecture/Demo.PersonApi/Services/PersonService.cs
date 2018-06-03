@@ -1,48 +1,51 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Demo.PersonApi.Models;
 using Demo.PersonApi.Repositories;
 using Demo.PersonApi.Repositories.Interfaces;
+using FluentValidation;
+using FluentValidation.Internal;
 
 namespace Demo.PersonApi.Services
 {
     public class PersonService : IPersonService
     {
         private readonly IPersonRepository personRepository;
-        public PersonService(IPersonRepository personRepository) {
+        private readonly IValidator<Person> personValidator;
+        public PersonService(IPersonRepository personRepository, IValidator<Person> personValidator) {
             this.personRepository = personRepository;
+            this.personValidator = personValidator;
         }
 
         private List<string> ValidatePerson(Person person, bool isNew) {
             var errors = new List<string>();
+            var result = personValidator.Validate(person, ruleSet:isNew ?"new":"*");
 
-            if(person.PersonId == 0 && !isNew) {
-                 errors.Add("Person Id required.");
-            }
-
-            if(string.IsNullOrWhiteSpace(person.Name)) {
-                errors.Add("Name Id required.");
-            }
-
-            if(!person.Courses.Any()) {
-                errors.Add("Select at least one course.");
+            if(!result.IsValid) {
+                errors.AddRange(result.Errors.Select(e=> e.ErrorMessage));
             }
 
             return errors;
         }
 
-        public ApiResponse<Person> Create(Person person)
-        {
+        private ApiResponse<Person> ExecuteOperation(Person person, bool isNew, Func<Person, Person> function) {
             var response = new ApiResponse<Person> {
-                Errors = ValidatePerson(person, true)
+                Errors = ValidatePerson(person, isNew)
             };
 
             if(!response.Success) {
                 return response;
             }
 
-            response.Data = personRepository.Add(person);
+            response.Data = function(person);
+
             return response;
+        }
+
+        public ApiResponse<Person> Create(Person person)
+        {
+            return ExecuteOperation(person, true, personRepository.Add);
         }
 
         public IEnumerable<Person> GetAll()
@@ -57,18 +60,7 @@ namespace Demo.PersonApi.Services
 
         public ApiResponse<Person> Update(Person person)
         {
-            var response = new ApiResponse<Person> {
-                Errors = ValidatePerson(person, false)
-            };
-
-            if(!response.Success) {
-                return response;
-            }
-
-            personRepository.Update(person);
-            response.Data = person;
-
-            return response;
+            return ExecuteOperation(person, false, personRepository.Update);
         }
 
         public ApiResponse<Person> Delete(int personId) { 

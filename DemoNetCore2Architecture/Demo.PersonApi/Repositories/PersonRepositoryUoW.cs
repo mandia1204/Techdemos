@@ -33,7 +33,7 @@ namespace Demo.PersonApi.Repositories
             throw new System.NotImplementedException();
         }
 
-        public void Update(Person person)
+        public Person Update(Person person)
         {
             throw new System.NotImplementedException();
         }

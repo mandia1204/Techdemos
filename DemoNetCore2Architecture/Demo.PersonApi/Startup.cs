@@ -16,6 +16,8 @@ using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
 using Demo.PersonApi.Models;
 using Demo.PersonApi.Repositories.Interfaces;
+using FluentValidation;
+using Demo.PersonApi.Validation;
 
 namespace Demo.PersonApi
 {
@@ -32,27 +34,26 @@ namespace Demo.PersonApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().AddJsonOptions(options => {
-                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver();
             });
 
+            var cc = Configuration.GetSection("ConnectionStrings").GetValue<string>("DefaultConnection");
             services.AddDbContext<SchoolContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             Bootstrapper(services);
         }
 
         private void Bootstrapper(IServiceCollection services){
-            services.AddTransient<IPersonService,PersonServiceUoW>();
-            services.AddTransient<IPersonServiceAsync,PersonServiceAsync>();
-            services.AddScoped<IPersonRepository,PersonRepositoryUoW>();
-            services.AddScoped<ISchoolUnitOfWork,SchoolUnitOfWork>();
+            services.AddTransient<IPersonService,PersonService>();
+            services.AddTransient<IValidator<Person>, PersonValidator>();
+            //services.AddTransient<IPersonServiceAsync,PersonServiceAsync>();
+            services.AddScoped<IPersonRepository,PersonRepository>();
+            //services.AddScoped<ISchoolUnitOfWork,SchoolUnitOfWork>();
             services.AddScoped<ICourseRepository,CourseRepository>();
             services.AddScoped<IPersonRepositoryAsync,PersonRepositoryAsync>();
-            
-            
             //services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-            services.AddScoped<IPersonRepositoryGeneric,PersonRepositoryGeneric>();
+            //services.AddScoped<IPersonRepositoryGeneric,PersonRepositoryGeneric>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

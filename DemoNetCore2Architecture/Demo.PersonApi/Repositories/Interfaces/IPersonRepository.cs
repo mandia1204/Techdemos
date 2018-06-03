@@ -9,6 +9,6 @@ namespace Demo.PersonApi.Repositories.Interfaces
          Person Add(Person person);
          Person GetById(int personId);
          void Remove(int personId);
-         void Update(Person person);
+         Person Update(Person person);
     }
 }
